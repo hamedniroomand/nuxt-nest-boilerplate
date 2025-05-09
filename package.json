@@ -6,7 +6,6 @@
     "install": "cd server && yarn install && cd ../client && yarn install",
     "build:server": "cd server && yarn build",
     "build:client": "cd client && yarn generate",
-    "prebuild": "rm -rf output && mkdir output",
     "build": "yarn build:server && yarn build:client",
     "dev:server": "cd server && yarn dev",
     "dev:client": "cd client && yarn dev",

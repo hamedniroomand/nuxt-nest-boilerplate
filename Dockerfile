@@ -15,8 +15,7 @@ RUN cd client && yarn install
 COPY ./server ./server
 COPY ./client ./client
 
-RUN yarn build:server
-RUN yarn build:client
+RUN yarn build
 
 FROM node:20-alpine AS production
 
@@ -24,8 +23,6 @@ WORKDIR /app
 
 COPY --from=builder /app/server/package.json ./server/
 COPY --from=builder /app/package.json ./
-
-RUN cd server && yarn install --production
 
 COPY --from=builder /app/server/dist ./server/dist
 COPY --from=builder /app/client/public ./client/public

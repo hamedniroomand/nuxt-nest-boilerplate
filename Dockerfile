@@ -1,24 +1,39 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-RUN mkdir -p /app/server && mkdir -p /app/client
+COPY package.json ./
+COPY ./server/package.json ./server/
+COPY ./server/yarn.lock ./server/
+COPY ./client/package.json ./client/
+COPY ./client/yarn.lock ./client/
+COPY ./shared ./shared/
 
-COPY ./package.json /app/package.json
-COPY ./server/package.json /app/server/package.json
-COPY ./server/yarn.lock /app/server/yarn.lock
-COPY ./client/package.json /app/client/package.json
-COPY ./client/yarn.lock /app/client/yarn.lock
+RUN cd server && yarn install
+RUN cd client && yarn install
 
-RUN yarn install --prefix /app/server
-RUN yarn install --prefix /app/client
+COPY ./server ./server
+COPY ./client ./client
 
-COPY ./server /app/server
-COPY ./client /app/client
-COPY ./shared /app/shared
+RUN yarn build:server
+RUN yarn build:client
+
+FROM node:20-alpine AS production
+
+WORKDIR /app
+
+COPY --from=builder /app/server/package.json ./server/
+COPY --from=builder /app/package.json ./
+
+RUN cd server && yarn install --production
+
+COPY --from=builder /app/server/dist ./server/dist
+COPY --from=builder /app/client/public ./client/public
+COPY --from=builder /app/shared ./shared
 
 ENV PORT=3000
+ENV NODE_ENV=production
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["node", "server/dist/server/src/main.js"]

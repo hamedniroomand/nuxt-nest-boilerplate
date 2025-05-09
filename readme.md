@@ -40,7 +40,8 @@ Create a `.env` file in the root directory:
 MONGODB_URI=mongodb://localhost:27017/myapp
 
 # Server Configuration
-PORT=3000
+SERVER_PORT=3000
+CLIENT_PORT=8080
 NODE_ENV=development
 ```
 
@@ -60,7 +61,11 @@ Run the development server:
 yarn dev
 ```
 
-This starts both the Nuxt frontend at http://localhost:8080 and the NestJS backend at http://localhost:3000 with hot-reloading.
+**Important Note**: In development mode, the client and server run independently on different ports:
+- **Nuxt frontend**: http://localhost:CLIENT_PORT (default: 8080)
+- **NestJS backend**: http://localhost:SERVER_PORT (default: 3000)
+
+Unlike in production, the NestJS server does not serve the Nuxt frontend in development mode. You'll need to work with both servers running simultaneously. API calls from the frontend should be configured to point to the backend server.
 
 ### Building for production
 
@@ -68,7 +73,7 @@ This starts both the Nuxt frontend at http://localhost:8080 and the NestJS backe
 yarn build
 ```
 
-This builds both the frontend and backend for production.
+This builds both the frontend and backend for production. The Nuxt app is generated as static files and will be served by the NestJS server.
 
 ### Production start
 
@@ -76,7 +81,7 @@ This builds both the frontend and backend for production.
 yarn start
 ```
 
-This starts the production server, serving the static Nuxt frontend through NestJS.
+This starts the production server on the `SERVER_PORT` (default: 3000), serving the static Nuxt frontend through NestJS.
 
 ## Docker
 
@@ -134,6 +139,22 @@ This template uses a modular architecture with clear separation of concerns:
 - **Static Generation**: Pre-rendered for optimal performance and SEO
 - **API Integration**: Communicates with the NestJS backend
 
+## Development vs Production
+
+### Development Mode
+- Client and server run on separate ports defined by `CLIENT_PORT` and `SERVER_PORT`
+- Client runs Nuxt's dev server with hot module replacement
+- Server runs on NestJS with auto-reloading
+- API requests from client must be configured to reach the correct backend URL
+- Changes to either codebase trigger hot-reloading independently
+
+### Production Mode
+- NestJS serves the statically generated Nuxt site
+- Everything runs through a single port (defined by `SERVER_PORT`)
+- Static assets are served directly by NestJS
+- API requests are handled by the same server
+- Client port is no longer used as the client is pre-built and served as static files
+
 ## Database Setup
 
 This template uses MongoDB with Mongoose. Make sure to:
@@ -144,7 +165,7 @@ This template uses MongoDB with Mongoose. Make sure to:
 
 ## Scripts
 
-- `yarn dev`: Start development servers
+- `yarn dev`: Start development servers (both client and server separately)
 - `yarn build`: Build for production
 - `yarn start`: Start production server
 - `yarn dev:client`: Start only the frontend in development

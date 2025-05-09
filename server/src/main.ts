@@ -48,7 +48,7 @@ async function bootstrap() {
   const port =
     process.env.NODE_ENV === 'production'
       ? fallbackPort
-      : process.env.CLIENT_PORT;
+      : process.env.SERVER_PORT;
 
   await app.listen(port || fallbackPort, '0.0.0.0');
 

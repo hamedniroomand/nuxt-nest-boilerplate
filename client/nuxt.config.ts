@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'static',
     output: {
-      dir: '../output/client',
+      dir: '../server/dist/client',
     },
   }
 })

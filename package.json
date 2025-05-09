@@ -4,10 +4,11 @@
   "main": "index.js",
   "scripts": {
     "install": "cd server && yarn install && cd ../client && yarn install",
-    "prebuild": "rm -rf output && mkdir -p output/server && mkdir -p output/client",
-    "build:server": "cd server && yarn build && cp -r node_modules ../output/server/node_modules && cp -r dist ../output/server",
+    "build:server": "cd server && yarn build",
     "build:client": "cd client && yarn generate",
+    "prebuild": "rm -rf output && mkdir output",
     "build": "yarn build:server && yarn build:client",
+    "postbuild": "mv server/dist/server output/server && mv server/dist/shared output/shared && mv server/dist/client output/client && cp .env output/.env && cp -r server/node_modules output/server/node_modules",
     "dev:server": "cd server && yarn dev",
     "dev:client": "cd client && yarn dev",
     "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",

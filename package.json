@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "install": "cd server && yarn install && cd ../client && yarn install",
-    "build:server": "cd server && yarn build",
+    "prebuild": "rm -rf output && mkdir -p output/server && mkdir -p output/client",
+    "build:server": "cd server && yarn build && cp -r node_modules ../output/server/node_modules && cp -r dist ../output/server",
     "build:client": "cd client && yarn generate",
     "build": "yarn build:server && yarn build:client",
     "dev:server": "cd server && yarn dev",

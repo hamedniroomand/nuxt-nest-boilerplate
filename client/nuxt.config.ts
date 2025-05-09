@@ -10,7 +10,18 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'static',
   },
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/favicon.ico',
+        },
+      ],
+    },
+  },
   devServer: {
     port: process.env.CLIENT_PORT ? parseInt(process.env.CLIENT_PORT) : 3000,
-  }
+  },
 })

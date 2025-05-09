@@ -12,7 +12,7 @@
     "dev:server": "cd server && yarn dev",
     "dev:client": "cd client && yarn dev",
     "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-    "start": "cd server && yarn start:prod"
+    "start": "node output/server/src/main.js"
   },
   "keywords": [],
   "author": "",

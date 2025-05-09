@@ -9,9 +9,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   nitro: {
     preset: 'static',
-    output: {
-      dir: '../server/dist/client',
-    },
   },
   devServer: {
     port: process.env.CLIENT_PORT ? parseInt(process.env.CLIENT_PORT) : 3000,

@@ -1,0 +1,22 @@
+{
+  "name": "fullstack-project-template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd server && yarn install && cd ../client && yarn install",
+    "build:server": "cd server && yarn build",
+    "build:client": "cd client && yarn generate",
+    "build": "yarn build:server && yarn build:client",
+    "dev:server": "cd server && yarn dev",
+    "dev:client": "cd client && yarn dev",
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
+    "start": "cd server && yarn start:prod"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

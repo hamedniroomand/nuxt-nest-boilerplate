@@ -38,8 +38,8 @@ async function bootstrap() {
   await app.register(compression, { encodings: ['gzip', 'deflate'] });
 
   await fastifyInstance.register(fastifyStatic, {
-    root: join(__dirname, '../../client/public'),
-    prefix: '/',
+    root: join(__dirname, '../../client/public/_nuxt'),
+    prefix: '/_nuxt',
     decorateReply: false,
     serve: true,
   });

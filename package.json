@@ -8,11 +8,10 @@
     "build:client": "cd client && yarn generate",
     "prebuild": "rm -rf output && mkdir output",
     "build": "yarn build:server && yarn build:client",
-    "postbuild": "mv server/dist/server output/server && mv server/dist/shared output/shared && mv server/dist/client output/client && cp .env output/.env && cp -r server/node_modules output/server/node_modules",
     "dev:server": "cd server && yarn dev",
     "dev:client": "cd client && yarn dev",
     "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-    "start": "node output/server/src/main.js"
+    "start": "node server/dist/server/src/main.js"
   },
   "keywords": [],
   "author": "",

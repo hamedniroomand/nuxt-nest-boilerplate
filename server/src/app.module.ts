@@ -2,14 +2,15 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { RouterModule } from '@nestjs/core';
+import { ApiModule } from './modules/api.module';
+import { WebsiteModule } from './modules/website.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: join(__dirname, '../../.env'),
+      envFilePath: join(__dirname, '../../../../.env'),
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -19,8 +20,15 @@ import { AppService } from './app.service';
       inject: [ConfigService],
     }),
     MongooseModule.forFeature([]),
+    WebsiteModule,
+    ApiModule,
+    RouterModule.register([
+      {
+        path: 'api',
+        module: ApiModule,
+      },
+    ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}

@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { RouterModule } from '@nestjs/core';
 import { ApiModule } from '~/modules/api.module';
 import { WebsiteModule } from '~/modules/website.module';
+import { SpaFallbackMiddleware } from './middlewares/spa-fallback.middleware';
 
 @Module({
   imports: [
@@ -31,4 +32,10 @@ import { WebsiteModule } from '~/modules/website.module';
   ],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(SpaFallbackMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

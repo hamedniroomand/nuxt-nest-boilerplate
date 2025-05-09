@@ -35,13 +35,61 @@ async function bootstrap() {
     },
   });
 
-  await app.register(compression, { encodings: ['gzip', 'deflate'] });
+  await app.register(compression, {
+    encodings: ['gzip', 'deflate'],
+    threshold: 1024,
+  });
 
+  const clientDir = join(__dirname, '../../client/public');
+
+  // 1. Long-lived cache for Nuxt bundled assets
   await fastifyInstance.register(fastifyStatic, {
-    root: join(__dirname, '../../client/public/_nuxt'),
+    root: join(clientDir, '_nuxt'),
     prefix: '/_nuxt',
     decorateReply: false,
-    serve: true,
+    cacheControl: true,
+    etag: true,
+    lastModified: true,
+    immutable: true,
+    maxAge: 31536000, // 1 year
+    setHeaders: (res, pathName) => {
+      // Most Nuxt builds add content hashes to filenames
+      if (pathName.match(/[a-f0-9]{6,}/i)) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      } else {
+        res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+      }
+    },
+  });
+
+  await fastifyInstance.register(fastifyStatic, {
+    root: clientDir,
+    prefix: '/',
+    decorateReply: false,
+    cacheControl: true,
+    etag: true,
+    lastModified: true,
+    setHeaders: (res, pathName) => {
+      if (pathName.endsWith('.html')) {
+        // HTML files: short cache with validation
+        res.setHeader('Cache-Control', 'public, max-age=600, must-revalidate');
+      } else if (/\.(jpg|jpeg|png|gif|svg|webp|ico)$/.test(pathName)) {
+        // Images: medium cache
+        res.setHeader('Cache-Control', 'public, max-age=604800'); // 1 week
+      } else if (/\.(woff|woff2|ttf|eot)$/.test(pathName)) {
+        // Fonts: long cache
+        res.setHeader('Cache-Control', 'public, max-age=2592000'); // 30 days
+      } else if (/\.(mp4|webm|ogg)$/.test(pathName)) {
+        // Media: medium cache
+        res.setHeader('Cache-Control', 'public, max-age=604800'); // 1 week
+      } else if (/\.(js|css)$/.test(pathName)) {
+        // JS/CSS not in _nuxt: medium cache
+        res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+      } else {
+        // Other assets: default cache
+        res.setHeader('Cache-Control', 'public, max-age=3600'); // 1 hour
+      }
+    },
   });
 
   const fallbackPort = 3000;

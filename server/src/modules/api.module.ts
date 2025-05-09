@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ApiController } from '../controllers';
+import { ApiController } from '~/controllers';
 
 @Module({
   controllers: [ApiController],

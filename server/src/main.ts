@@ -7,8 +7,8 @@ import compression from '@fastify/compress';
 import helmet from '@fastify/helmet';
 import { join } from 'path';
 import fastifyStatic from '@fastify/static';
-import { AppModule } from './app.module';
-import { wait } from 'shared/utils';
+import { wait } from '@shared/utils';
+import { AppModule } from '~/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -44,9 +44,12 @@ async function bootstrap() {
     serve: true,
   });
 
-  await app.listen(process.env.PORT ?? 3030, '0.0.0.0');
+  await app.listen(process.env.SERVER_PORT ?? 3000, '0.0.0.0');
+
   await wait(10);
+
   const appUrl = await app.getUrl();
+
   console.log(`Server is running on ${appUrl}`);
 }
 

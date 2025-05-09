@@ -3,8 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { RouterModule } from '@nestjs/core';
-import { ApiModule } from './modules/api.module';
-import { WebsiteModule } from './modules/website.module';
+import { ApiModule } from '~/modules/api.module';
+import { WebsiteModule } from '~/modules/website.module';
 
 @Module({
   imports: [

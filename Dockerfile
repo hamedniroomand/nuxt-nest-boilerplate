@@ -14,7 +14,7 @@ RUN yarn install:dependencies
 COPY ./server ./server
 COPY ./client ./client
 
-RUN yarn build
+RUN yarn build:client && yarn build:server
 
 FROM node:20-alpine AS production
 

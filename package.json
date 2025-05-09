@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "install": "cd server && yarn install && cd ../client && yarn install",
+    "install:dependencies": "cd server && yarn install && cd ../client && yarn install",
     "build:server": "cd server && yarn build",
     "build:client": "cd client && yarn generate",
     "build": "yarn build:server && yarn build:client",

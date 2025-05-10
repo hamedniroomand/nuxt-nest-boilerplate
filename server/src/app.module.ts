@@ -3,8 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { CacheModule } from '@nestjs/cache-manager';
-import { redisConfig } from 'config/redis';
-import { mongooseConfig } from 'config/mongoose';
+import { redisConfig } from '~/config/redis';
+import { mongooseConfig } from '~/config/mongoose';
 import { SpaFallbackMiddleware } from '~/middlewares/spa-fallback.middleware';
 import { AppController } from '~/controllers';
 

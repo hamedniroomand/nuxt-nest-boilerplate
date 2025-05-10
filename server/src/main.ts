@@ -5,10 +5,10 @@ import {
 } from '@nestjs/platform-fastify';
 import compression from '@fastify/compress';
 import helmet from '@fastify/helmet';
-import { setupSwagger } from 'config/swagger';
-import { helmetConfig } from 'config/helmet';
-import { compressConfig } from 'config/compress';
-import { setupStaticFile } from 'config/static-file';
+import { setupSwagger } from '~/config/swagger';
+import { helmetConfig } from '~/config/helmet';
+import { compressConfig } from '~/config/compress';
+import { setupStaticFile } from '~/config/static-file';
 import { wait } from '@shared/utils';
 import { AppModule } from '~/app.module';
 

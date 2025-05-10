@@ -6,13 +6,13 @@ import { join } from 'path';
 export const setupStaticFile = async (app: NestFastifyApplication) => {
   const fastifyInstance = app.getHttpAdapter().getInstance();
 
-  const clientDir = join(__dirname, '../../client/public');
+  const clientDir = join(__dirname, '../../../client/public');
 
   if (!existsSync(clientDir)) {
     mkdirSync(clientDir, { recursive: true });
     cpSync(
-      join(__dirname, '../../../../client/.output'),
-      join(__dirname, '../../client'),
+      join(__dirname, '../../../../../client/.output'),
+      join(__dirname, '../../../client'),
       {
         recursive: true,
       },

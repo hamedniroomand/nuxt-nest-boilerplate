@@ -10,6 +10,8 @@ import fastifyStatic from '@fastify/static';
 import { wait } from '@shared/utils';
 import { AppModule } from '~/app.module';
 import { setupSwagger } from 'config/swagger';
+import { helmetConfig } from 'config/helmet';
+import { compressConfig } from 'config/compress';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -20,30 +22,12 @@ async function bootstrap() {
 
   const fastifyInstance = app.getHttpAdapter().getInstance();
 
-  await app.register(helmet, {
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", 'data:', 'blob:'],
-        connectSrc: ["'self'", 'ws:', 'wss:'],
-        fontSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'self'"],
-      },
-    },
-  });
+  await app.register(helmet, helmetConfig);
 
-  await app.register(compression, {
-    encodings: ['gzip', 'deflate'],
-    threshold: 1024,
-  });
+  await app.register(compression, compressConfig);
 
   const clientDir = join(__dirname, '../../client/public');
 
-  // 1. Long-lived cache for Nuxt bundled assets
   await fastifyInstance.register(fastifyStatic, {
     root: join(clientDir, '_nuxt'),
     prefix: '/_nuxt',
@@ -62,7 +46,6 @@ async function bootstrap() {
       }
     },
   });
-
   await fastifyInstance.register(fastifyStatic, {
     root: clientDir,
     prefix: '/',

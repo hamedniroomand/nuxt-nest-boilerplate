@@ -1,11 +1,14 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { RouterModule } from '@nestjs/core';
 import { ApiModule } from '~/modules/api.module';
 import { WebsiteModule } from '~/modules/website.module';
 import { SpaFallbackMiddleware } from './middlewares/spa-fallback.middleware';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisConfig } from 'config/redis';
+import { mongooseConfig } from 'config/mongoose';
 
 @Module({
   imports: [
@@ -13,13 +16,8 @@ import { SpaFallbackMiddleware } from './middlewares/spa-fallback.middleware';
       isGlobal: true,
       envFilePath: join(__dirname, '../../../../.env'),
     }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
-      inject: [ConfigService],
-    }),
+    MongooseModule.forRootAsync(mongooseConfig),
+    CacheModule.registerAsync(redisConfig),
     MongooseModule.forFeature([]),
     WebsiteModule,
     ApiModule,

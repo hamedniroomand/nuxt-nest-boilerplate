@@ -1,18 +1,18 @@
+version: '3.8'
+
 services:
   app:
     build:
-      context: ../..
+      context: .
       dockerfile: docker/production/Dockerfile
     ports:
       - 3030:3000
-    volumes:
-      - ./server:/app/server
-      - ./client:/app/client
-      - ./shared:/app/shared
     environment:
       - MONGODB_URI=mongodb://mongo:27017/app
+      - NODE_ENV=production
     depends_on:
       - mongo
+    restart: unless-stopped
 
   mongo:
     image: mongo:latest
@@ -20,6 +20,7 @@ services:
       - 27018:27017
     volumes:
       - db_data:/data/db
+    restart: unless-stopped
 
 volumes:
   db_data:

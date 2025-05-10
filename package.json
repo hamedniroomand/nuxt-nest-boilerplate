@@ -13,8 +13,9 @@
     "start": "NODE_ENV=production node server/dist/server/src/main.js",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up",
     "docker:dev:build": "docker-compose -f docker-compose.dev.yml up --build",
-    "docker:prod": "docker-compose -f docker/production/docker-compose.yml up",
-    "docker:prod:build": "docker-compose -f docker/production/docker-compose.yml up --build"
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up",
+    "docker:prod:build": "docker-compose -f docker-compose.prod.yml up --build",
+    "docker:prod:build:nocache": "docker-compose -f docker-compose.prod.yml build --no-cache && docker-compose -f docker-compose.prod.yml up"
   },
   "author": "hamed@niroomand.dev",
   "license": "MIT",

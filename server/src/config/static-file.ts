@@ -8,16 +8,16 @@ export const setupStaticFile = async (app: NestFastifyApplication) => {
 
   const clientDir = join(__dirname, '../../../client/public');
 
-  if (!existsSync(clientDir)) {
-    mkdirSync(clientDir, { recursive: true });
-    cpSync(
-      join(__dirname, '../../../../../client/.output'),
-      join(__dirname, '../../../client'),
-      {
-        recursive: true,
-      },
-    );
-  }
+  // if (!existsSync(clientDir)) {
+  //   mkdirSync(clientDir, { recursive: true });
+  //   cpSync(
+  //     join(__dirname, '../../../../../client/.output'),
+  //     join(__dirname, '../../../client'),
+  //     {
+  //       recursive: true,
+  //     },
+  //   );
+  // }
 
   await fastifyInstance.register(fastifyStatic, {
     root: join(clientDir, '_nuxt'),

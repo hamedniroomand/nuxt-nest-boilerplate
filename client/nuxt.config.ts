@@ -24,4 +24,9 @@ export default defineNuxtConfig({
   devServer: {
     port: process.env.CLIENT_PORT ? parseInt(process.env.CLIENT_PORT) : 3000,
   },
+  vite: {
+    server: {
+      allowedHosts: ['nuxt-nest.local'],
+    }
+  }
 })

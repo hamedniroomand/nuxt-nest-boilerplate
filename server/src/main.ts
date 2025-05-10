@@ -27,15 +27,9 @@ async function bootstrap() {
 
   const { path } = setupSwagger(app);
 
-  const fallbackPort = 3000;
-  const port =
-    process.env.NODE_ENV === 'production'
-      ? fallbackPort
-      : process.env.SERVER_PORT;
-
   app.setGlobalPrefix('api');
 
-  await app.listen(port || fallbackPort, '0.0.0.0');
+  await app.listen(process.env.PORT || 3000, '0.0.0.0');
 
   await wait(10);
 
@@ -43,11 +37,12 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV === 'development') {
     console.log(
-      `Client is running on http://127.0.0.1:${process.env.CLIENT_PORT}`,
+      'application is running on http://nuxt-nest.local:8080',
     );
+    console.log(`Swagger is running on http://nuxt-nest.local:8080/${path}`);
+  } else {
+    console.log(`application is running on ${appUrl}`);
   }
-  console.log(`Server is running on ${appUrl}`);
-  console.log(`Swagger is running on ${appUrl}/${path}`);
 }
 
 bootstrap().catch(console.error);

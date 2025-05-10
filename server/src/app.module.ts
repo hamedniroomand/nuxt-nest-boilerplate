@@ -23,8 +23,6 @@ import { AppController } from '~/controllers';
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(SpaFallbackMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
+    consumer.apply(SpaFallbackMiddleware);
   }
 }

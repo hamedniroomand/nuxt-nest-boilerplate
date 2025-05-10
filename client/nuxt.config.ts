@@ -5,13 +5,14 @@ config({ path: resolve(__dirname, '../.env') })
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: '2025-05-01',
   devtools: { enabled: true },
   nitro: {
     preset: 'static',
   },
   app: {
     head: {
+      title: 'Nuxt Nest',
       link: [
         {
           rel: 'icon',

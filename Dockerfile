@@ -26,4 +26,4 @@ USER node
 
 EXPOSE 3000
 
-CMD ["node", "/app/server/dist/server/src/main.js"]
+CMD ["yarn", "start"]

@@ -5,11 +5,12 @@ import {
 } from '@nestjs/platform-fastify';
 import compression from '@fastify/compress';
 import helmet from '@fastify/helmet';
-import { AppModule } from '~/app.module';
 import { setupSwagger } from 'config/swagger';
 import { helmetConfig } from 'config/helmet';
 import { compressConfig } from 'config/compress';
 import { setupStaticFile } from 'config/static-file';
+import { wait } from '@shared/utils';
+import { AppModule } from '~/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -32,7 +33,11 @@ async function bootstrap() {
       ? fallbackPort
       : process.env.SERVER_PORT;
 
+  app.setGlobalPrefix('api');
+
   await app.listen(port || fallbackPort, '0.0.0.0');
+
+  await wait(10);
 
   const appUrl = await app.getUrl();
 

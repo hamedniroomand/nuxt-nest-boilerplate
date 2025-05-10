@@ -2,13 +2,11 @@ import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
-import { RouterModule } from '@nestjs/core';
-import { ApiModule } from '~/modules/api.module';
-import { WebsiteModule } from '~/modules/website.module';
-import { SpaFallbackMiddleware } from './middlewares/spa-fallback.middleware';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisConfig } from 'config/redis';
 import { mongooseConfig } from 'config/mongoose';
+import { SpaFallbackMiddleware } from '~/middlewares/spa-fallback.middleware';
+import { AppController } from '~/controllers';
 
 @Module({
   imports: [
@@ -19,15 +17,8 @@ import { mongooseConfig } from 'config/mongoose';
     MongooseModule.forRootAsync(mongooseConfig),
     CacheModule.registerAsync(redisConfig),
     MongooseModule.forFeature([]),
-    WebsiteModule,
-    ApiModule,
-    RouterModule.register([
-      {
-        path: 'api',
-        module: ApiModule,
-      },
-    ]),
   ],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {

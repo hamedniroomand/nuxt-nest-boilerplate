@@ -9,6 +9,7 @@ import { join } from 'path';
 import fastifyStatic from '@fastify/static';
 import { wait } from '@shared/utils';
 import { AppModule } from '~/app.module';
+import { setupSwagger } from 'config/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -92,6 +93,8 @@ async function bootstrap() {
     },
   });
 
+  const { path } = setupSwagger(app);
+
   const fallbackPort = 3000;
   const port =
     process.env.NODE_ENV === 'production'
@@ -105,6 +108,7 @@ async function bootstrap() {
   const appUrl = await app.getUrl();
 
   console.log(`Server is running on ${appUrl}`);
+  console.log(`Swagger is running on ${appUrl}/${path}`);
 }
 
 bootstrap().catch(console.error);

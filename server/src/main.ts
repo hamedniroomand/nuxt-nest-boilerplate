@@ -41,6 +41,11 @@ async function bootstrap() {
 
   const appUrl = await app.getUrl();
 
+  if (process.env.NODE_ENV === 'development') {
+    console.log(
+      `Client is running on http://127.0.0.1:${process.env.CLIENT_PORT}`,
+    );
+  }
   console.log(`Server is running on ${appUrl}`);
   console.log(`Swagger is running on ${appUrl}/${path}`);
 }

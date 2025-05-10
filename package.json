@@ -10,7 +10,7 @@
     "dev:server": "cd server && yarn dev",
     "dev:client": "cd client && yarn dev",
     "dev": "concurrently \"yarn dev:server\" \"yarn dev:client\"",
-    "start": "node server/dist/server/src/main.js"
+    "start": "NODE_ENV=production node server/dist/server/src/main.js"
   },
   "author": "hamed@niroomand.dev",
   "license": "MIT",

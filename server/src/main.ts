@@ -41,7 +41,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development') {
     console.log(`application is running on http://${host}:${process.env.PORT}`);
     console.log(
-      `Swagger is running on http://${hostEnv}:${process.env.PORT}/${path}`,
+      `Swagger is running on http://${host}:${process.env.PORT}/${path}`,
     );
   } else {
     console.log(`application is running on ${appUrl}`);

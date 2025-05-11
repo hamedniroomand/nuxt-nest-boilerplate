@@ -26,6 +26,7 @@ services:
     environment:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://mongo:27017/app
+      - VDOMAIN=${VDOMAIN:-nuxt-nest.local}
     command: yarn dev
     ports:
       - "3001:3001"

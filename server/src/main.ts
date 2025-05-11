@@ -11,6 +11,7 @@ import { compressConfig } from '~/config/compress';
 import { setupStaticFile } from '~/config/static-file';
 import { wait } from '@shared/utils';
 import { AppModule } from '~/app.module';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -18,6 +19,8 @@ async function bootstrap() {
     new FastifyAdapter(),
     { cors: false },
   );
+
+  const host = app.get(ConfigService).get<string>('VDOMAIN');
 
   await app.register(helmet, helmetConfig);
 
@@ -36,11 +39,9 @@ async function bootstrap() {
   const appUrl = await app.getUrl();
 
   if (process.env.NODE_ENV === 'development') {
+    console.log(`application is running on http://${host}:${process.env.PORT}`);
     console.log(
-      `application is running on http://${process.env.VDOMAIN}:${process.env.PORT}`,
-    );
-    console.log(
-      `Swagger is running on http://${process.env.VDOMAIN}:${process.env.PORT}/${path}`,
+      `Swagger is running on http://${hostEnv}:${process.env.PORT}/${path}`,
     );
   } else {
     console.log(`application is running on ${appUrl}`);

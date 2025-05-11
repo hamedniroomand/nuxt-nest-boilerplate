@@ -44,6 +44,12 @@ importers:
       cache-manager:
         specifier: ^6.4.3
         version: 6.4.3
+      fastify:
+        specifier: ^5.3.2
+        version: 5.3.2
+      helmet:
+        specifier: ^8.1.0
+        version: 8.1.0
       mongoose:
         specifier: ^8.14.2
         version: 8.14.2

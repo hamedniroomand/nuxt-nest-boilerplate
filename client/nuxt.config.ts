@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { resolve } from 'path';
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-01',
   devtools: { enabled: true },
@@ -21,6 +22,12 @@ export default defineNuxtConfig({
     port: 3000,
   },
   vite: {
+    resolve: {
+      alias: {
+        '@shared': resolve(__dirname, '../shared'),
+        '~': resolve(__dirname, '.'),
+      },
+    },
     server: {
       allowedHosts: [process.env.VDOMAIN || ''],
     }

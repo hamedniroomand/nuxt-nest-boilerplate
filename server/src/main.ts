@@ -37,9 +37,11 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV === 'development') {
     console.log(
-      'application is running on http://nuxt-nest.local:8080',
+      `application is running on http://${process.env.VDOMAIN}:${process.env.PORT}`,
     );
-    console.log(`Swagger is running on http://nuxt-nest.local:8080/${path}`);
+    console.log(
+      `Swagger is running on http://${process.env.VDOMAIN}:${process.env.PORT}/${path}`,
+    );
   } else {
     console.log(`application is running on ${appUrl}`);
   }

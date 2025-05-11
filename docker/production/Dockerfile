@@ -1,27 +1,29 @@
 FROM node:20-alpine AS builder
 
+RUN apk add pnpm
+
 WORKDIR /app
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY pnpm-lock.yaml ./
 
 COPY shared ./shared
 
 WORKDIR /app/client
-COPY client/package.json client/yarn.lock ./
-RUN yarn install --frozen-lockfile --production
+COPY client/package.json client/pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --production
 
 WORKDIR /app/server
-COPY server/package.json server/yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY server/package.json server/pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 WORKDIR /app
 
 COPY client ./client
 COPY server ./server
 
-RUN yarn build:client
-RUN yarn build:server
+RUN pnpm build:client
+RUN pnpm build:server
 
 RUN mkdir -p server/dist/client && \
     cp -r client/.output/* server/dist/client/

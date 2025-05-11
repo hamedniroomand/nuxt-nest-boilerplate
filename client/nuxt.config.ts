@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   },
   vite: {
     server: {
-      allowedHosts: ['nuxt-nest.local'],
+      allowedHosts: [process.env.VDOMAIN],
     }
   }
 })
